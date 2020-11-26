@@ -11,10 +11,11 @@ Simple!
 
 Now, all of your Hangouts data has been dumped into text files separated chat-by-chat. These files can then be searched at your leisure.
 
-If you want to be able to perform searches directly through the program, you will need to change some code in "src/Main.java". All of the necessary methods should be present within that file. Simply uncomment the method "liveDataParse();" on line 51, comment out "dumpChats();" on line 50, and you're good to go!
+If you want to be able to perform searches directly through the program, you will need to change some code in "src/Main.java". All of the necessary methods should be present within that file. Simply uncomment the method "liveDataParse();" on line 51, comment out "dumpChats();" on line 50, and you're good to go! (*TODO these methods are currently unimplemented though*)
 
 ## Planned Features
 * Support for bold, italics, and other formatting in the file dump
 * Support for other apps such as Discord
-* A faster JSON parser (which I could also turn into its own library??)
+* Support for live searching through the chat database
+* A faster JSON parser (which I could also turn into [its own library](https://github.com/utk003/JSON-Parser))
 * More intelligent username resolution which can cross-refer between different chat histories to identify users who may have left the chat log prior to takeout (*this last one kind of already exists, but I would like to make it better if possible*)
