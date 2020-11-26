@@ -22,51 +22,45 @@
 // SOFTWARE.                                                                      //
 ////////////////////////////////////////////////////////////////////////////////////
 
-package hangouts_history_reader.elements;
+package hangouts_history_reader;
 
-import json.elements.JSONObject;
+import json.elements.JSONString;
+import json.elements.JSONValue;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.LinkedList;
-import java.util.List;
-import java.util.StringTokenizer;
 
-import static hangouts_history_reader.HangoutsUtil.getStringValues;
-
-public class HangoutsRemoveUser extends HangoutsEvent {
-    public final EventType type() {
-        return EventType.REMOVE_USER;
+public class HangoutsUtil {
+    public static JSONValue getValue(Collection<JSONValue> elements, JSONValue.ValueType type) {
+        JSONValue value = null;
+        for (JSONValue jsonValue : elements)
+            if (jsonValue.type() == type)
+                value = jsonValue;
+        return value;
     }
 
-    private final List<String> USERS;
-    private final boolean REMOVED_SELF;
-
-    public HangoutsRemoveUser(JSONObject callData) {
-        super(callData);
-
-        Collection<String> removed = getStringValues(callData.findElements("membership_change.participant_id[*].gaia_id"));
-        REMOVED_SELF = removed.remove(SENDER_ID);
-        USERS = new LinkedList<>(removed);
+    public static Collection<JSONValue> getValues(Collection<JSONValue> elements, JSONValue.ValueType type) {
+        Collection<JSONValue> value = new LinkedList<>();
+        for (JSONValue jsonValue : elements)
+            if (jsonValue.type() == type)
+                value.add(jsonValue);
+        return value;
     }
 
-    public String toString(HangoutsChat chat) {
-        StringBuilder toString = toStringHeaderHelper(chat);
-        if (!USERS.isEmpty()) {
-            StringBuilder builder = new StringBuilder("REMOVED ");
-            int count = 0, total = USERS.size();
-            for (String userID : USERS) {
-                builder.append(chat.resolveUser(userID));
+    public static String getStringValue(Collection<JSONValue> elements) {
+        String value = null;
+        for (JSONValue jsonValue : elements)
+            if (jsonValue.type() == JSONValue.ValueType.STRING)
+                value = ((JSONString) jsonValue).getValue();
+        return value;
+    }
 
-                if (++count != total) {
-                    builder.append(", ");
-                    if (count + 1 == total)
-                        builder.append("and ");
-                }
-            }
-            toString.append(toStringMessageHelper(new StringTokenizer(builder.append(" FROM THIS CHAT").toString())));
-        }
-        if (REMOVED_SELF)
-            toString.append(toStringMessageHelper(new StringTokenizer("LEFT THIS CHAT")));
-        return toString.toString();
+    public static Collection<String> getStringValues(Collection<JSONValue> elements) {
+        Collection<String> set = new HashSet<>();
+        for (JSONValue jsonValue : elements)
+            if (jsonValue.type() == JSONValue.ValueType.STRING)
+                set.add(((JSONString) jsonValue).getValue());
+        return set;
     }
 }
