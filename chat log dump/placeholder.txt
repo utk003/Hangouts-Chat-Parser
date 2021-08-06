@@ -1,1 +1,0 @@
-Github doesn't support empty folders!

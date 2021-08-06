@@ -23,11 +23,6 @@
 ////////////////////////////////////////////////////////////////////////////////////
 
 import hangouts_history_reader.elements.HangoutsChat;
-import json.JSONParser;
-import json.elements.JSONArray;
-import json.elements.JSONObject;
-import json.elements.JSONValue;
-import scanner.Scanner;
 
 import java.io.*;
 import java.util.*;
